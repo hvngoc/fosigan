@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Wakadana</string>
+
+    <string name="no_result">No result!!</string>
+    <string name="error_default">Error default</string>
+
+    <string name="date" formatted="false">Date: %s</string>
+    <string name="temperature" formatted="false">Temperature: %s\u2103</string>
+    <string name="pressure" formatted="false">Pressure: %s</string>
+    <string name="humidity" formatted="false">Humidity: %s%%</string>
+    <string name="description" formatted="false">Description: %s</string>
+</resources>
