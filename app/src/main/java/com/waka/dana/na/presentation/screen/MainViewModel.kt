@@ -26,6 +26,7 @@ class MainViewModel(private val useCase: GetListWeatherByNameUseCase) : ViewMode
     val data: LiveData<DataResult> = _data
 
     fun loadData(query: String?) {
+        _data.value = DataResult.Loading
         viewModelScope.launch(Dispatchers.Main + exceptionHandler) {
             useCase.execute(query, {
                 _data.value = it

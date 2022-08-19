@@ -5,7 +5,7 @@ import com.airbnb.epoxy.EpoxyHolder
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.waka.dana.na.R
-import com.waka.dana.na.databinding.ItemChildBinding
+import com.waka.dana.na.databinding.ItemChildLoadingBinding
 
 /**
  * Created by hvngoc on 7/29/22
@@ -20,10 +20,10 @@ abstract class ChildLoadingEpoxyModel :
 
     class ChildHolder : EpoxyHolder() {
 
-        lateinit var binding: ItemChildBinding
+        lateinit var binding: ItemChildLoadingBinding
 
         override fun bindView(itemView: View) {
-            binding = ItemChildBinding.bind(itemView)
+            binding = ItemChildLoadingBinding.bind(itemView)
         }
     }
 }

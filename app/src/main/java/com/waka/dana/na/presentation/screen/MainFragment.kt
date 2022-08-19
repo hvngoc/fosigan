@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -18,9 +17,9 @@ import com.waka.dana.na.domain.response.DataResult
 import com.waka.dana.na.presentation.base.MasterController
 import com.waka.dana.na.presentation.base.MasterEpoxyBuilder
 import com.waka.dana.na.presentation.screen.holder.ChildEpoxyModel_
+import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -43,7 +42,7 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
     private val debounce = Runnable {
         val length = mainViewModel.lastQuery?.length ?: 0
         if (length >= 3) {
-            showContent(loading = true)
+            showContent(content = true)
             mainViewModel.loadData(mainViewModel.lastQuery)
         } else {
             showContent(empty = true)
@@ -85,6 +84,10 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
                     showContent(error = true)
                     binding.error.text = it.e.message ?: getString(R.string.error_default)
                 }
+                is DataResult.Loading -> {
+                    showContent(content = true)
+                    controller.requestModelBuild()
+                }
             }
         }
     }
@@ -93,17 +96,16 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
         content: Boolean = false,
         error: Boolean = false,
         empty: Boolean = false,
-        loading: Boolean = false
     ) {
         binding.recyclerView.visibleIf(content)
         binding.error.visibleIf(error)
         binding.noResult.visibleIf(empty)
-        binding.loading.visibleIf(loading)
 
     }
 
     override fun buildHolder(): List<EpoxyModelWithHolder<*>> {
-        val data = mainViewModel.data.value as? DataResult.Success<*> ?: return emptyList()
+        val raw = mainViewModel.data.value
+        val data = raw as? DataResult.Success<*> ?: return buildLoadingHolder()
         val list = data.data as? WeatherList ?: return emptyList()
         val items = list.list ?: return emptyList()
         return items.mapIndexed { index, weather ->
@@ -115,5 +117,14 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
                 .pressure(weather.pressure?.toString())
                 .description(weather.weather?.getOrNull(0)?.description)
         }
+    }
+
+    private fun buildLoadingHolder(): List<EpoxyModelWithHolder<*>> {
+        val result = arrayListOf<EpoxyModelWithHolder<*>>()
+        for (i in 0..8) {
+            val holder = ChildLoadingEpoxyModel_().id(i)
+            result.add(holder)
+        }
+        return result;
     }
 }
