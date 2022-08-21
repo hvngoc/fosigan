@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data />
+
+    <TextView
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:ellipsize="start"
+        android:gravity="center_vertical"
+        android:maxWidth="120dp"
+        android:paddingHorizontal="4dp"
+        android:singleLine="true"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/vector_ic_next"
+        tools:text="Internal Internal" />
+</layout>

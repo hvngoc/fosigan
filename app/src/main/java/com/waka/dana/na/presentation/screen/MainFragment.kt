@@ -12,6 +12,8 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.waka.dana.na.R
 import com.waka.dana.na.databinding.FragmentMainBinding
@@ -21,6 +23,7 @@ import com.waka.dana.na.presentation.base.MasterController
 import com.waka.dana.na.presentation.base.MasterEpoxyBuilder
 import com.waka.dana.na.presentation.screen.holder.ChildEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
+import com.waka.dana.na.presentation.screen.holder.NavigationEpoxyModel_
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,9 +49,25 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
             }
         }
 
-    private val controller = MasterController(this)
-    private val mainViewModel: MainViewModel by viewModel()
     private lateinit var binding: FragmentMainBinding
+    private val mainController by lazy { MasterController(this) }
+    private val mainViewModel: MainViewModel by viewModel()
+
+    private val navigationController by lazy {
+        MasterController(object : MasterEpoxyBuilder {
+            override fun buildHolder(): List<EpoxyModelWithHolder<*>> {
+                val headers = mainViewModel.header.value ?: return emptyList()
+                return headers.map { header ->
+                    NavigationEpoxyModel_()
+                        .id(header.path)
+                        .title(header.name)
+                        .onClick {
+                            mainViewModel.popHeader(header)
+                        }
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,13 +77,17 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.recyclerView.setController(controller)
+        binding.recyclerView.setController(mainController)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 LinearLayout.VERTICAL
             )
         )
+
+        binding.navigation.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.navigation.setController(navigationController)
 
         showContent(content = true)
         checkStoragePermission()
@@ -77,7 +100,7 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
             when (it) {
                 is DataResult.Success<*> -> {
                     showContent(content = true)
-                    controller.requestModelBuild()
+                    mainController.requestModelBuild()
                     showLoadingContent(loading = false)
                 }
                 is DataResult.Error -> {
@@ -86,10 +109,13 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
                 }
                 is DataResult.Loading -> {
                     showContent(content = true)
-                    controller.requestModelBuild()
+                    mainController.requestModelBuild()
                     showLoadingContent(loading = true)
                 }
             }
+        }
+        mainViewModel.header.observe(viewLifecycleOwner) {
+            navigationController.requestModelBuild()
         }
     }
 
@@ -108,7 +134,7 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
     private fun prepareData() {
         (mainViewModel.data.value as? DataResult.Success<*>)?.let {
             showContent(content = true)
-            controller.requestModelBuild()
+            mainController.requestModelBuild()
         } ?: run {
             mainViewModel.loadData()
         }
@@ -135,10 +161,14 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
         val list = data.data as? List<StorageItem> ?: return emptyList()
         buildSortByHeader(list.size)
         return list.mapIndexed { index, file ->
-            return@mapIndexed ChildEpoxyModel_().id(file.path)
+            return@mapIndexed ChildEpoxyModel_()
+                .id("$index-${file.path}")
                 .title(file.name)
                 .resThumbnail(if (file.isFolder == true) R.drawable.vector_ic_folder_open else R.drawable.vector_ic_file)
                 .description(HumanUtil.displayDate(file.lastModified))
+                .onClick {
+                    mainViewModel.loadFolder(file.name, file.path)
+                }
         }
     }
 

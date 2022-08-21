@@ -6,8 +6,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingVertical="6dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/no_result"
@@ -34,6 +33,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <com.airbnb.epoxy.EpoxyRecyclerView
+                    android:id="@+id/navigation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" />
+
+            </LinearLayout>
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/header_loading"

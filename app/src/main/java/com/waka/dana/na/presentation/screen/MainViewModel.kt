@@ -53,4 +53,22 @@ class MainViewModel(private val useCase: GetListStorageByPath) : ViewModel(), Ko
             })
         }
     }
+
+    fun loadFolder(name: String?, path: String?) {
+        val root = StorageHeader(name = name, path = path)
+        val list = _header.value?.toMutableList()
+        list?.add(root)
+        _header.value = list
+        loadData()
+    }
+
+    fun popHeader(header: StorageHeader) {
+        val index = _header.value?.indexOf(header) ?: return
+        if (index == -1 || index + 1 == _header.value?.size) {
+            return
+        }
+        val list = _header.value?.subList(0, index + 1)
+        _header.value = list
+        loadData()
+    }
 }
