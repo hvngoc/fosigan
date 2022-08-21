@@ -8,5 +8,8 @@
         <item quantity="one">%d Item</item>
         <item quantity="other">%d Items</item>
     </plurals>
-    <string name="sort_by">Sort By: %s</string>
+    <string name="sort_by_date">Sort By: Date</string>
+    <string name="sort_by_name">Sort By: Name</string>
+    <string name="sort_by_type">Sort By: Type</string>
+    <string name="sort_by_size">Sort By: Size</string>
 </resources>

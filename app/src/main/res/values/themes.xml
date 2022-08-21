@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="ThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorNoActionBar</item>
@@ -10,5 +10,12 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
+
+        <item name="android:popupMenuStyle">@style/PopupMenuTheme</item>
+
+    </style>
+
+    <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/colorBackground</item>
     </style>
 </resources>

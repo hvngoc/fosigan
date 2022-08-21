@@ -4,9 +4,11 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -24,6 +26,7 @@ import com.waka.dana.na.presentation.base.MasterEpoxyBuilder
 import com.waka.dana.na.presentation.screen.holder.ChildEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.NavigationEpoxyModel_
+import com.waka.dana.na.presentation.screen.model.Sort
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +35,8 @@ import org.koin.core.component.KoinComponent
 /**
  * Created by hvngoc on 7/29/22
  */
-class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
+class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
+    PopupMenu.OnMenuItemClickListener {
     companion object {
 
         const val TAG = "FragmentMain"
@@ -89,6 +93,13 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.navigation.setController(navigationController)
 
+        binding.headerSort.setOnClickListener {
+            val menu = PopupMenu(requireActivity(), it)
+            menu.menuInflater.inflate(R.menu.menu_sort, menu.menu)
+            menu.setOnMenuItemClickListener(this)
+            menu.show()
+        }
+
         showContent(content = true)
         checkStoragePermission()
         return binding.root
@@ -117,6 +128,24 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
         mainViewModel.header.observe(viewLifecycleOwner) {
             navigationController.requestModelBuild()
         }
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.date -> {
+                mainViewModel.saveSortOption(Sort.DATE)
+            }
+            R.id.size -> {
+                mainViewModel.saveSortOption(Sort.SIZE)
+            }
+            R.id.name -> {
+                mainViewModel.saveSortOption(Sort.NAME)
+            }
+            R.id.type -> {
+                mainViewModel.saveSortOption(Sort.TYPE)
+            }
+        }
+        return true
     }
 
     private fun checkStoragePermission() {
@@ -184,6 +213,6 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder {
     private fun buildSortByHeader(total: Int) {
         val text = resources.getQuantityString(R.plurals.total_items, total, total)
         binding.headerTotal.text = text
-        binding.headerSort.text = getString(R.string.sort_by)
+        binding.headerSort.text = getString(mainViewModel.getSort().resId)
     }
 }
