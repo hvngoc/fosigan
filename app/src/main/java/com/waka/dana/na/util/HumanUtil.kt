@@ -1,5 +1,6 @@
 package com.waka.dana.na.util
 
+import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -8,9 +9,13 @@ import java.util.*
  */
 object HumanUtil {
     fun displayDate(dt: Long?): String? {
-//        val data = dt?.toLongOrNull() ?: return null
         val data = dt ?: return null
-        val format = SimpleDateFormat("EEE, MM/dd/yyyy", Locale.US)
-        return format.format(Date(data * 1000))
+        val date = Date(data)
+        if (DateUtils.isToday(data)) {
+            val format = SimpleDateFormat("HH:mm", Locale.US)
+            return format.format(date)
+        }
+        val formatAll = SimpleDateFormat("EEE, MM/dd/yyyy", Locale.US)
+        return formatAll.format(date)
     }
 }

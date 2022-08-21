@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Fossigan</string>
 
-    <string name="no_result">No result!!</string>
+    <string name="no_result">Empty</string>
     <string name="error_default">Error default</string>
+
+    <plurals name="total_items">
+        <item quantity="one">%d Item</item>
+        <item quantity="other">%d Items</item>
+    </plurals>
+    <string name="sort_by">Sort By: %s</string>
 </resources>

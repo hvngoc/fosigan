@@ -1,52 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingVertical="6dp">
 
-        <EditText
-            android:id="@+id/edit_text"
+        <TextView
+            android:id="@+id/no_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_result"
+            android:textColor="#F00"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/error_default"
+            android:textColor="#FF0"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text">
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/header_loading"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingHorizontal="16dp"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/no_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/no_result"
-                android:textColor="#F00"
-                android:textSize="20sp"
-                android:visibility="gone" />
+                <View
+                    android:layout_width="160dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="#4000" />
 
-            <TextView
-                android:id="@+id/error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/error_default"
-                android:textColor="#FF0"
-                android:textSize="20sp"
-                android:visibility="gone" />
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="#4000" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <FrameLayout
+                android:id="@+id/header_content"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#2000"
+                android:paddingHorizontal="16dp">
+
+                <TextView
+                    android:id="@+id/header_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    tools:text="11 Items" />
+
+                <Button
+                    android:id="@+id/header_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableEnd="@android:drawable/arrow_down_float"
+                    android:drawablePadding="4dp"
+                    android:paddingHorizontal="6dp"
+                    tools:text="Sort By: Text" />
+            </FrameLayout>
 
             <com.airbnb.epoxy.EpoxyRecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false" />
-
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </FrameLayout>
 </layout>

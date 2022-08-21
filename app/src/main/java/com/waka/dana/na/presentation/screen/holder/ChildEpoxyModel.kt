@@ -17,22 +17,18 @@ abstract class ChildEpoxyModel :
     EpoxyModelWithHolder<ChildEpoxyModel.ChildHolder>() {
 
     @EpoxyAttribute
-    var date: String? = null
+    var resThumbnail: Int = R.drawable.vector_ic_folder_open
 
     @EpoxyAttribute
-    var temperature: String? = null
-
-    @EpoxyAttribute
-    var pressure: String? = null
-
-    @EpoxyAttribute
-    var humidity: String? = null
+    var title: String? = null
 
     @EpoxyAttribute
     var description: String? = null
 
     override fun bind(holder: ChildHolder) {
-        val context = holder.binding.root.context
+        holder.binding.thumbnail.setImageResource(resThumbnail)
+        holder.binding.title.text = title
+        holder.binding.description.text = description
     }
 
     class ChildHolder : EpoxyHolder() {

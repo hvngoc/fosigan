@@ -2,7 +2,6 @@ package com.waka.dana.na.presentation
 
 import androidx.multidex.MultiDexApplication
 import com.waka.dana.na.data.di.cacheModule
-import com.waka.dana.na.data.di.networkModule
 import com.waka.dana.na.data.di.repositoryModule
 import com.waka.dana.na.domain.di.useCaseModule
 import com.waka.dana.na.presentation.di.appModule
@@ -18,7 +17,7 @@ class MyApp : MultiDexApplication() {
         super.onCreate()
         startKoin {
             androidContext(this@MyApp)
-            modules(appModule, networkModule, repositoryModule, useCaseModule, cacheModule)
+            modules(appModule, repositoryModule, useCaseModule, cacheModule)
         }
     }
 }
