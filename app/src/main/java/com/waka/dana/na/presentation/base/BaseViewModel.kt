@@ -12,13 +12,15 @@ import org.koin.core.component.KoinComponent
  */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
 
+    protected abstract val initState: DataResult;
+
     protected val exceptionHandler = CoroutineExceptionHandler { _, error ->
         _data.value = DataResult.Error(error)
     }
 
     protected val _data: MutableLiveData<DataResult> by lazy {
         MutableLiveData<DataResult>().apply {
-            value = DataResult.Loading
+            value = initState
         }
     }
     val data: LiveData<DataResult> = _data

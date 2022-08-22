@@ -34,4 +34,12 @@ class StorageRepositoryImpl : StorageRepository {
             )
         }
     }
+
+    @Throws(Throwable::class)
+    override fun searchStorage(path: String?, query: String?): List<StorageItem>? {
+        val list = getListStorage(path)
+        return list?.filter { item ->
+            item.name?.lowercase()?.contains(query?.lowercase() ?: "") ?: false
+        }
+    }
 }

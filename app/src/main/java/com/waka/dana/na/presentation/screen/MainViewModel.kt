@@ -23,6 +23,8 @@ class MainViewModel(
     private val prefServices: PrefServices
 ) : BaseViewModel() {
 
+    override val initState: DataResult = DataResult.Loading
+
     private val _header: MutableLiveData<List<StorageHeader>> by lazy {
         MutableLiveData<List<StorageHeader>>().apply {
             value = arrayListOf(

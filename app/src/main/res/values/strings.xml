@@ -12,4 +12,6 @@
     <string name="sort_by_name">Sort By: Name</string>
     <string name="sort_by_type">Sort By: Type</string>
     <string name="sort_by_size">Sort By: Size</string>
+
+    <string name="search_in_hint">Search in %s</string>
 </resources>

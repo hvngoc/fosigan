@@ -27,6 +27,7 @@ import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.NavigationEpoxyModel_
 import com.waka.dana.na.presentation.screen.model.DisplayMode
 import com.waka.dana.na.presentation.screen.model.Sort
+import com.waka.dana.na.presentation.screen.search.FilterDialogFragment
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -97,6 +98,16 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
         binding.displayMode.setOnClickListener {
             mainViewModel.toggleDisplayMode()
         }
+        binding.filter.setOnClickListener {
+            val filter = FilterDialogFragment.newInstance(
+                mainViewModel.header.value?.lastOrNull()?.name,
+                mainViewModel.header.value?.lastOrNull()?.path,
+            )
+            filter.show(childFragmentManager, FilterDialogFragment.TAG)
+        }
+        binding.search.setOnClickListener {
+
+        }
 
         showContent(content = true)
         checkStoragePermission()
@@ -128,10 +139,10 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
         }
         mainViewModel.displayMode.observe(viewLifecycleOwner) { mode ->
             if (mode == DisplayMode.LIST) {
-                binding.displayMode.setImageResource(R.drawable.vector_ic_mode_list)
+                binding.displayMode.setImageResource(R.drawable.vector_ic_mode_grid)
                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
             } else {
-                binding.displayMode.setImageResource(R.drawable.vector_ic_mode_grid)
+                binding.displayMode.setImageResource(R.drawable.vector_ic_mode_list)
                 binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
             }
         }

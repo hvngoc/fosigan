@@ -12,3 +12,9 @@ fun AppCompatActivity.replaceFragment(viewId: Int, fragment: Fragment, tag: Stri
     manager.replace(viewId, fragment, tag)
     manager.commit()
 }
+
+fun Fragment.replaceFragment(viewId: Int, fragment: Fragment, tag: String) {
+    val manager = childFragmentManager.beginTransaction()
+    manager.replace(viewId, fragment, tag)
+    manager.commit()
+}

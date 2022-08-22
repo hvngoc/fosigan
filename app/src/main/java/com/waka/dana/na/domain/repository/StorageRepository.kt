@@ -9,4 +9,7 @@ interface StorageRepository {
 
     @Throws(Throwable::class)
     fun getListStorage(path: String?): List<StorageItem>?
+
+    @Throws(Throwable::class)
+    fun searchStorage(path: String?, query: String?): List<StorageItem>?
 }
