@@ -27,8 +27,8 @@ import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.NavigationEpoxyModel_
 import com.waka.dana.na.presentation.screen.model.DisplayMode
 import com.waka.dana.na.presentation.screen.model.Sort
-import com.waka.dana.na.presentation.screen.filter.FilterDialogFragment
-import com.waka.dana.na.presentation.screen.search.SearchDialogFragment
+import com.waka.dana.na.presentation.screen.search.filter.FilterDialogFragment
+import com.waka.dana.na.presentation.screen.search.all.SearchDialogFragment
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel

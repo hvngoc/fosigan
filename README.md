@@ -28,6 +28,8 @@ Support sort files by name, date, size or type.
 
 Support search file in a folder.
 
+Support search file in all folders
+
 Support display total items, last edited time for each folder
 
 Supports different view types: List, Grid, Thumbnail. After the user chose a view type, the app should retain that setting.

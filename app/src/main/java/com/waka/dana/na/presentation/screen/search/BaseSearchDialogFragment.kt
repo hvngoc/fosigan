@@ -19,37 +19,35 @@ import com.waka.dana.na.presentation.screen.holder.ChildEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Created by hvngoc on 8/22/22
  */
-class SearchDialogFragment : FullWindowDialogFragment(), MasterEpoxyBuilder {
+abstract class BaseSearchDialogFragment<T> : FullWindowDialogFragment(), MasterEpoxyBuilder {
     companion object {
-        const val TAG = "DialogSearch"
-
         private const val DELAY_TIME = 600L
-
-        fun newInstance(): SearchDialogFragment {
-            return SearchDialogFragment()
-        }
     }
 
     private val debounce = Runnable {
         val length = mainViewModel.lastQuery?.length ?: 0
         if (length >= 2) {
             showContent(content = true)
-            mainViewModel.loadData(mainViewModel.lastQuery)
+            mainViewModel.loadData(getRequestData())
         } else {
             showContent(empty = true)
         }
     }
-    private val mainViewModel: SearchViewModel by viewModel()
+    abstract val mainViewModel: BaseSearchViewModel<T>
 
     private lateinit var binding: FragmentFilterBinding
+
     private val controller by lazy {
         MasterController(this)
     }
+
+    abstract fun getHint(): String
+
+    abstract fun getRequestData(): T?
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,7 +59,7 @@ class SearchDialogFragment : FullWindowDialogFragment(), MasterEpoxyBuilder {
             dismiss()
         }
         showContent(empty = true)
-        binding.edit.hint = getString(R.string.search_in_all)
+        binding.edit.hint = getHint()
 
         binding.recyclerView.setController(controller)
 

@@ -1,8 +1,8 @@
 package com.waka.dana.na.presentation.di
 
 import com.waka.dana.na.presentation.screen.MainViewModel
-import com.waka.dana.na.presentation.screen.filter.FilterViewModel
-import com.waka.dana.na.presentation.screen.search.SearchViewModel
+import com.waka.dana.na.presentation.screen.search.filter.FilterViewModel
+import com.waka.dana.na.presentation.screen.search.all.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
