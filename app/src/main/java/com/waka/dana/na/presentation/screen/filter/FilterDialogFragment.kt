@@ -1,4 +1,4 @@
-package com.waka.dana.na.presentation.screen.search
+package com.waka.dana.na.presentation.screen.filter
 
 import android.os.Bundle
 import android.view.LayoutInflater

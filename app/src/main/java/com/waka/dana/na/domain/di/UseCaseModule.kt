@@ -1,6 +1,7 @@
 package com.waka.dana.na.domain.di
 
 import com.waka.dana.na.domain.usecase.GetListStorageByPath
+import com.waka.dana.na.domain.usecase.SearchStorageByName
 import com.waka.dana.na.domain.usecase.SearchStorageInPath
 import org.koin.dsl.module
 
@@ -10,4 +11,5 @@ import org.koin.dsl.module
 val useCaseModule = module {
     single<GetListStorageByPath> { GetListStorageByPath(get()) }
     single<SearchStorageInPath> { SearchStorageInPath(get()) }
+    single<SearchStorageByName> { SearchStorageByName(get()) }
 }

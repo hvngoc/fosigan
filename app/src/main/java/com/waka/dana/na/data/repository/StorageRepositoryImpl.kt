@@ -1,5 +1,6 @@
 package com.waka.dana.na.data.repository
 
+import com.waka.dana.na.data.caches.ProviderServices
 import com.waka.dana.na.domain.model.StorageItem
 import com.waka.dana.na.domain.repository.StorageRepository
 import java.io.File
@@ -7,7 +8,7 @@ import java.io.File
 /**
  * Created by hvngoc on 7/29/22
  */
-class StorageRepositoryImpl : StorageRepository {
+class StorageRepositoryImpl(private val providerServices: ProviderServices) : StorageRepository {
 
     @Throws(Throwable::class)
     override fun getListStorage(path: String?): List<StorageItem>? {
@@ -41,5 +42,10 @@ class StorageRepositoryImpl : StorageRepository {
         return list?.filter { item ->
             item.name?.lowercase()?.contains(query?.lowercase() ?: "") ?: false
         }
+    }
+
+    @Throws(Throwable::class)
+    override fun searchStorageByName(name: String?): List<StorageItem>? {
+        return providerServices.searchStorageByName(name)
     }
 }

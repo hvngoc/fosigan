@@ -1,4 +1,4 @@
-package com.waka.dana.na.presentation.screen.search
+package com.waka.dana.na.presentation.screen.filter
 
 import androidx.lifecycle.viewModelScope
 import com.waka.dana.na.domain.request.SearchInPath

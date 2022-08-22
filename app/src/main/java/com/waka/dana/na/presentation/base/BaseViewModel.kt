@@ -12,7 +12,7 @@ import org.koin.core.component.KoinComponent
  */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
 
-    protected abstract val initState: DataResult;
+    protected abstract val initState: DataResult
 
     protected val exceptionHandler = CoroutineExceptionHandler { _, error ->
         _data.value = DataResult.Error(error)
