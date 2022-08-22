@@ -7,13 +7,12 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyModelWithHolder
@@ -26,6 +25,7 @@ import com.waka.dana.na.presentation.base.MasterEpoxyBuilder
 import com.waka.dana.na.presentation.screen.holder.ChildEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.NavigationEpoxyModel_
+import com.waka.dana.na.presentation.screen.model.DisplayMode
 import com.waka.dana.na.presentation.screen.model.Sort
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
@@ -82,12 +82,6 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.recyclerView.setController(mainController)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                LinearLayout.VERTICAL
-            )
-        )
 
         binding.navigation.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
@@ -98,6 +92,10 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
             menu.menuInflater.inflate(R.menu.menu_sort, menu.menu)
             menu.setOnMenuItemClickListener(this)
             menu.show()
+        }
+
+        binding.displayMode.setOnClickListener {
+            mainViewModel.toggleDisplayMode()
         }
 
         showContent(content = true)
@@ -127,6 +125,15 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
         }
         mainViewModel.header.observe(viewLifecycleOwner) {
             navigationController.requestModelBuild()
+        }
+        mainViewModel.displayMode.observe(viewLifecycleOwner) { mode ->
+            if (mode == DisplayMode.LIST) {
+                binding.displayMode.setImageResource(R.drawable.vector_ic_mode_list)
+                binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            } else {
+                binding.displayMode.setImageResource(R.drawable.vector_ic_mode_grid)
+                binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+            }
         }
     }
 

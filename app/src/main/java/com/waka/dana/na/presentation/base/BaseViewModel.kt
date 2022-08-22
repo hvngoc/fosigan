@@ -1,4 +1,4 @@
-package com.waka.dana.na.presentation
+package com.waka.dana.na.presentation.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

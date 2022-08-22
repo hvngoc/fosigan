@@ -9,7 +9,8 @@ import com.waka.dana.na.domain.model.StorageHeader
 import com.waka.dana.na.domain.model.StorageItem
 import com.waka.dana.na.domain.response.DataResult
 import com.waka.dana.na.domain.usecase.GetListStorageByPath
-import com.waka.dana.na.presentation.BaseViewModel
+import com.waka.dana.na.presentation.base.BaseViewModel
+import com.waka.dana.na.presentation.screen.model.DisplayMode
 import com.waka.dana.na.presentation.screen.model.Sort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +34,13 @@ class MainViewModel(
         }
     }
     val header: LiveData<List<StorageHeader>> = _header
+
+    private val _displayMode: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>().apply {
+            value = prefServices.getInt(DisplayMode.KEY_DISPLAY, DisplayMode.LIST)
+        }
+    }
+    val displayMode: LiveData<Int> = _displayMode
 
     fun loadData() {
         _data.value = DataResult.Loading
@@ -78,5 +86,12 @@ class MainViewModel(
     private fun applySort(list: List<StorageItem>?): List<StorageItem>? {
         val sort = getSort()
         return list?.toMutableList()?.sortedWith(sort.rule)
+    }
+
+    fun toggleDisplayMode() {
+        val current = prefServices.getInt(DisplayMode.KEY_DISPLAY, DisplayMode.LIST)
+        val mode = if (current == DisplayMode.LIST) DisplayMode.GRID else DisplayMode.LIST
+        prefServices.saveInt(DisplayMode.KEY_DISPLAY, mode)
+        _displayMode.value = mode
     }
 }
