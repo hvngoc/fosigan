@@ -12,10 +12,15 @@
         <item name="android:textColorSecondary">@color/white</item>
 
         <item name="android:popupMenuStyle">@style/PopupMenuTheme</item>
+        <item name="android:alertDialogTheme">@style/DialogTheme</item>
 
     </style>
 
     <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/colorBackground</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:popupBackground">@color/colorBackground</item>
     </style>
 

@@ -1,6 +1,7 @@
 package com.waka.dana.na.presentation.screen
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -223,6 +225,12 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
                         val detail = DetailDialogFragment.newInstance()
                         detail.show(childFragmentManager, DetailDialogFragment.TAG)
                     }
+                }.onInfoClick {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Info")
+                        .setMessage(file.toString())
+                        .setPositiveButton("OK", null)
+                        .show()
                 }
         }
     }

@@ -28,12 +28,18 @@ abstract class ChildEpoxyModel :
     @EpoxyAttribute
     var onClick: (() -> Unit)? = null
 
+    @EpoxyAttribute
+    var onInfoClick: (() -> Unit)? = null
+
     override fun bind(holder: ChildHolder) {
         holder.binding.thumbnail.setImageResource(resThumbnail)
         holder.binding.title.text = title
         holder.binding.description.text = description
         holder.binding.root.setOnClickListener {
             onClick?.invoke()
+        }
+        holder.binding.info.setOnClickListener {
+            onInfoClick?.invoke()
         }
     }
 
