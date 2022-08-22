@@ -3,18 +3,16 @@ package com.waka.dana.na.presentation.screen
 import android.os.Environment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.waka.dana.na.data.caches.PrefServices
 import com.waka.dana.na.domain.model.StorageHeader
 import com.waka.dana.na.domain.model.StorageItem
 import com.waka.dana.na.domain.response.DataResult
 import com.waka.dana.na.domain.usecase.GetListStorageByPath
+import com.waka.dana.na.presentation.BaseViewModel
 import com.waka.dana.na.presentation.screen.model.Sort
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
 
 /**
  * Created by hvngoc on 7/29/22
@@ -22,18 +20,7 @@ import org.koin.core.component.KoinComponent
 class MainViewModel(
     private val useCase: GetListStorageByPath,
     private val prefServices: PrefServices
-) : ViewModel(), KoinComponent {
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, error ->
-        _data.value = DataResult.Error(error)
-    }
-
-    private val _data: MutableLiveData<DataResult> by lazy {
-        MutableLiveData<DataResult>().apply {
-            value = DataResult.Loading
-        }
-    }
-    val data: LiveData<DataResult> = _data
+) : BaseViewModel() {
 
     private val _header: MutableLiveData<List<StorageHeader>> by lazy {
         MutableLiveData<List<StorageHeader>>().apply {
@@ -79,16 +66,17 @@ class MainViewModel(
     }
 
     fun saveSortOption(sort: Sort) {
-        prefServices.saveInt(Sort.KEY_SORT, sort.type)
+        prefServices.saveInt(Sort.KEY_SORT, sort.type.type)
         loadData()
     }
 
     fun getSort(): Sort {
-        val type = prefServices.getInt(Sort.KEY_SORT, Sort.NAME.type)
+        val type = prefServices.getInt(Sort.KEY_SORT, Sort.NAME.type.type)
         return Sort.fromType(type)
     }
 
     private fun applySort(list: List<StorageItem>?): List<StorageItem>? {
-        return list
+        val sort = getSort()
+        return list?.toMutableList()?.sortedWith(sort.rule)
     }
 }
