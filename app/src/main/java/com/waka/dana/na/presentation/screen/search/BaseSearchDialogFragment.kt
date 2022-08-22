@@ -49,6 +49,8 @@ abstract class BaseSearchDialogFragment<T> : FullWindowDialogFragment(), MasterE
 
     abstract fun getRequestData(): T?
 
+    abstract val toastMessage: String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -112,7 +114,7 @@ abstract class BaseSearchDialogFragment<T> : FullWindowDialogFragment(), MasterE
                 .onClick {
                     Toast.makeText(
                         requireContext(),
-                        "search current path only, click = TBD",
+                        toastMessage,
                         Toast.LENGTH_SHORT
                     ).show()
                 }

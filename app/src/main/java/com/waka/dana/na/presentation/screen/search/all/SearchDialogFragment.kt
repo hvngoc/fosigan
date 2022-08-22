@@ -25,4 +25,6 @@ class SearchDialogFragment : BaseSearchDialogFragment<String>() {
     override fun getRequestData(): String? {
         return mainViewModel.lastQuery
     }
+
+    override val toastMessage: String = "search file in devices only, click = TBD"
 }

@@ -38,4 +38,6 @@ class FilterDialogFragment : BaseSearchDialogFragment<SearchInPath>() {
         val path = arguments?.getString(PARAM_PATH)
         return SearchInPath(mainViewModel.lastQuery, path)
     }
+
+    override val toastMessage: String = "search current path only, click = TBD"
 }
