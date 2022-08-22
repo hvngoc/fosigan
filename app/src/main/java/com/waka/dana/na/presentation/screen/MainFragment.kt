@@ -28,6 +28,7 @@ import com.waka.dana.na.presentation.screen.holder.NavigationEpoxyModel_
 import com.waka.dana.na.presentation.screen.model.DisplayMode
 import com.waka.dana.na.presentation.screen.model.Sort
 import com.waka.dana.na.presentation.screen.filter.FilterDialogFragment
+import com.waka.dana.na.presentation.screen.search.SearchDialogFragment
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -106,7 +107,8 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
             filter.show(childFragmentManager, FilterDialogFragment.TAG)
         }
         binding.search.setOnClickListener {
-
+            val search = SearchDialogFragment.newInstance()
+            search.show(childFragmentManager, SearchDialogFragment.TAG)
         }
 
         showContent(content = true)

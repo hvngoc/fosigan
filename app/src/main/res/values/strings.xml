@@ -14,4 +14,5 @@
     <string name="sort_by_size">Sort By: Size</string>
 
     <string name="search_in_hint">Search in %s</string>
+    <string name="search_in_all">Search file name here</string>
 </resources>
