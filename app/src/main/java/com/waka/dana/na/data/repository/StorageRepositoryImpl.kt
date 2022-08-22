@@ -20,12 +20,17 @@ class StorageRepositoryImpl : StorageRepository {
             return emptyList()
         }
         return children.map { item ->
+            val totalSpace = try {
+                item.length()
+            } catch (e: Exception) {
+                0L
+            }
             StorageItem(
                 name = item.name,
                 path = item.absolutePath,
                 lastModified = item.lastModified(),
                 isFolder = item.isDirectory,
-                size = item.totalSpace.toDouble()
+                size = totalSpace
             )
         }
     }

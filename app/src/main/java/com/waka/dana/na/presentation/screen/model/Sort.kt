@@ -10,8 +10,8 @@ import com.waka.dana.na.domain.model.StorageItem
 enum class Sort(val type: SortBy, val resId: Int, val rule: Comparator<StorageItem>) {
     SIZE(SortBy.SIZE, R.string.sort_by_size,
         Comparator<StorageItem> { p0, p1 ->
-            val size0 = p0.size ?: 0.0
-            val size1 = p1.size ?: 0.0
+            val size0 = p0.size ?: 0L
+            val size1 = p1.size ?: 0L
             return@Comparator if (size0 > size1) 1 else -1
         }),
     NAME(SortBy.NAME, R.string.sort_by_name,

@@ -8,6 +8,6 @@ data class StorageItem(
     val name: String?,
     val path: String?,
     val lastModified: Long?,
-    val size: Double?,
+    val size: Long?,
     val isFolder: Boolean?
 )
