@@ -22,13 +22,14 @@ import com.waka.dana.na.domain.model.StorageItem
 import com.waka.dana.na.domain.response.DataResult
 import com.waka.dana.na.presentation.base.MasterController
 import com.waka.dana.na.presentation.base.MasterEpoxyBuilder
+import com.waka.dana.na.presentation.screen.detail.DetailDialogFragment
 import com.waka.dana.na.presentation.screen.holder.ChildEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.ChildLoadingEpoxyModel_
 import com.waka.dana.na.presentation.screen.holder.NavigationEpoxyModel_
 import com.waka.dana.na.presentation.screen.model.DisplayMode
 import com.waka.dana.na.presentation.screen.model.Sort
-import com.waka.dana.na.presentation.screen.search.filter.FilterDialogFragment
 import com.waka.dana.na.presentation.screen.search.all.SearchDialogFragment
+import com.waka.dana.na.presentation.screen.search.filter.FilterDialogFragment
 import com.waka.dana.na.util.HumanUtil
 import com.waka.dana.na.util.visibleIf
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -216,7 +217,12 @@ class MainFragment : Fragment(), KoinComponent, MasterEpoxyBuilder,
                 .resThumbnail(if (file.isFolder == true) R.drawable.vector_ic_folder_open else R.drawable.vector_ic_file)
                 .description(HumanUtil.displayDate(file.lastModified))
                 .onClick {
-                    mainViewModel.loadFolder(file.name, file.path)
+                    if (file.isFolder == true) {
+                        mainViewModel.loadFolder(file.name, file.path)
+                    } else {
+                        val detail = DetailDialogFragment.newInstance()
+                        detail.show(childFragmentManager, DetailDialogFragment.TAG)
+                    }
                 }
         }
     }
